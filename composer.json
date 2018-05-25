@@ -1,0 +1,24 @@
+{
+    "name": "cryptomkt/cryptomkt-curl-php",
+    "description": "PHP Client to integrate CryptoMarket into your PHP Projects",
+    "type": "git",
+    "require": {
+        "php-curl-class/php-curl-class": "^8.0",
+        "psr/log": "^1.0",
+        "psr/http-message": "^1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^7.1"
+    },
+    "autoload": {
+        "psr-4": { "Cryptomkt\\Exchange\\": "src/" }
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mario Pando",
+            "email": "mario@cryptomkt.com"
+        }
+    ],
+    "minimum-stability": "dev"
+}
