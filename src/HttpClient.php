@@ -7,10 +7,13 @@ use Cryptomkt\Exchange\Authentication\Authentication;
 // use Cryptomkt\Exchange\Exception\HttpException;
 // use GuzzleHttp\Exception\RequestException;
 // use GuzzleHttp\Psr7\Request;
-// use GuzzleHttp\RequestOptions;
-// use Psr\Http\Message\RequestInterface;
-// use Psr\Http\Message\ResponseInterface;
-// use Psr\Log\LoggerInterface;
+use Cryptomkt\RequestOptions;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
+// use Psr\Http\RequestInterface as Request;
+// use Psr\Log\LoggerInterfaceuse GuzzleHttp\Psr7\Request;
+use Cryptomkt\Psr7\Request; 
+use \Curl\Curl;
 
 class HttpClient
 {
@@ -18,6 +21,7 @@ class HttpClient
     private $apiVersion;
     private $auth;
     private $requestPath;
+    private $curl;
 
     /** @var LoggerInterface */
     private $logger;
@@ -28,12 +32,18 @@ class HttpClient
     /** @var ResponseInterface */
     private $lastResponse;
 
-    public function __construct($apiUrl, $apiVersion, Authentication $auth, ClientInterface $transport)
+    public function __construct($apiUrl, $apiVersion, $auth, $transport)
     {
+        // var_dump($apiUrl);
+        // var_dump($apiVersion);
+        // var_dump($auth);
+        // var_dump($transport);
+        // exit;
         $this->apiUrl = rtrim($apiUrl, '/');
         $this->apiVersion = $apiVersion;
         $this->auth = $auth;
-        $this->transport = $transport;
+        $this->curl = new Curl();
+        // $this->transport = $transport;
     }
 
     public function getLogger()
@@ -59,6 +69,10 @@ class HttpClient
     /** @return ResponseInterface */
     public function get($path, array $params = [])
     {
+        // var_dump($path); exit;
+        // var_dump($this->curl->get($path, array(
+        //      $params
+        // ))); exit;
         return $this->request('GET', $path, $params);
     }
 
@@ -122,7 +136,26 @@ class HttpClient
         );
 
         try {
-            $this->lastResponse = $response = $this->transport->send($request, $options);
+            // $this->lastResponse = $response = $this->transport->send($request, $options);
+            
+            switch ($request->getMethod()) {
+                case 'GET':
+                    $this->lastResponse = $response = $this->curl->get($request->getUri());    
+                    break;
+                case 'POST':
+                    // $path = $this->prepareQueryString($path, $params);
+                    break;
+                case 'PUT':
+                    // $path = $this->prepareQueryString($path, $params);
+                    break;
+                case 'DELETE':
+                    // $path = $this->prepareQueryString($path, $params);
+                    break;
+                
+                default:
+                    # code...
+                    break;
+            }
         } catch (RequestException $e) {
             throw HttpException::wrap($e);
         }

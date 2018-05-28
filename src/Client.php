@@ -138,6 +138,7 @@ class Client
     private function getAndMapData($path, array $params = [])
     {
         $response = $this->http->get($path, $params);
+        // var_dump($this->http); exit;
         return $this->mapper->toData($response);
     }
 

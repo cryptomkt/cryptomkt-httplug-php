@@ -30,7 +30,7 @@ class Configuration
         );
     }
 
-    public function __construct(Authentication $authentication)
+    public function __construct(ApiKeyAuthentication $authentication)
     {
         $this->authentication = $authentication;
         $this->apiUrl = self::DEFAULT_API_URL;
@@ -38,12 +38,13 @@ class Configuration
     }
 
     /** @return HttpClient */
-    public function createHttpClient()
+    public function createHttpClient(ClientInterface $transport = null)
     {
         $httpClient = new HttpClient(
             $this->apiUrl,
             $this->apiVersion,
-            $this->authentication
+            $this->authentication,
+            $transport
         );
 
         // $httpClient->setLogger($this->logger);

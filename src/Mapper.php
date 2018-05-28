@@ -32,7 +32,7 @@ namespace Cryptomkt\Exchange;
 // use Cryptomkt\Exchange\Value\Money;
 // use Cryptomkt\Exchange\Value\Network;
 // use Cryptomkt\Exchange\Value\Ticker;
-// use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ResponseInterface;
 
 
 class Mapper
