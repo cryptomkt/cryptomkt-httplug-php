@@ -2,11 +2,7 @@
 namespace Cryptomkt;
 
 /**
- * This class contains a list of built-in Guzzle request options.
  *
- * More documentation for each option can be found at http://guzzlephp.org/.
- *
- * @link http://docs.guzzlephp.org/en/v6/request-options.html
  */
 final class RequestOptions
 {

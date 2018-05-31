@@ -1,5 +1,5 @@
 {
-    "name": "cryptomkt/cryptomkt-curl-php",
+    "name": "cryptomkt/cryptomkt-httplug-php",
     "description": "PHP Client to integrate CryptoMarket into your PHP Projects",
     "type": "git",
     "require": {
@@ -14,8 +14,7 @@
     "autoload": {
         "psr-4": { 
             "Cryptomkt\\": "src/", 
-            "Cryptomkt\\Exchange\\": "src/", 
-            "Cryptomkt\\Psr7\\": "src/" 
+            "Cryptomkt\\Exchange\\": "src/"
         }
     },
     "license": "MIT",
@@ -32,6 +31,6 @@
         }
     },
     "provide": {
-        "psr/http-message-implementation": "1.0"
+        "php-http/client-implementation": "1.0"
     }
 }

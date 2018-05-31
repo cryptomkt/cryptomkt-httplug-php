@@ -1,7 +1,7 @@
 # CryptoMarket PHP Client
 
-Official Client library [CryptoMarket API v1][1] for integrate CryptoMarket into your
-PHP project.
+Official Client library [CryptoMarket API v1][1] to integrate CryptoMarket into your
+PHP project, using HTTPlug client abstraction [CryptoMarket API v1][3].
 
 ## Installation
 
@@ -9,7 +9,7 @@ This library could be installed using Composer. Please read the [Composer Docume
 
 ```json
 "require": {
-    "cryptomkt/cryptomkt-php": "dev-master"
+    "cryptomkt/cryptomkt-httplug-php": "dev-master"
 }
 ```
 
@@ -29,7 +29,7 @@ $client = Client::create($configuration);
 
 ### Warnings
 
-this library will log all warnings to a
+This library will log all warnings to a
 standard PSR-3 logger if one is configured.
 
 ```php
@@ -165,6 +165,13 @@ $arguments = array('id' => 'P13565');
 $response = $client->getPayOrder($arguments);  
 ```
 
+**Get pay orders**
+
+```php
+$arguments = array('start_date' => '1/05/2018','end_date' => '31/05/2018');
+$response = $client->getPayOrders($arguments);  
+```
+
 ## Contributing and testing
 
 The test suite is built using PHPUnit. Run the suite of unit tests by running
@@ -176,3 +183,4 @@ phpunit
 
 [1]: https://developers.cryptomkt.com
 [2]: https://packagist.org/packages/cryptomkt/cryptomkt
+[3]: https://github.com/php-http/httplug
