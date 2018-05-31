@@ -1,7 +1,7 @@
 # CryptoMarket PHP Client
 
 Official Client library [CryptoMarket API v1][1] to integrate CryptoMarket into your
-PHP project, using HTTPlug client abstraction [CryptoMarket API v1][3].
+PHP project, using HTTPlug client abstraction [HTTPlug][3].
 
 ## Installation
 
