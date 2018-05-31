@@ -1,7 +1,10 @@
 {
     "name": "cryptomkt/cryptomkt-httplug-php",
     "description": "PHP Client to integrate CryptoMarket into your PHP Projects",
+    "keywords": [ "ethereum", "cryptomkt", "stellar", "php", "client", "bitcoin", "lumen", "cryptocurrencies", "blockchain"],
+    "homepage": "https://www.cryptomkt.com",
     "type": "git",
+    "license": "MIT",
     "require": {
         "psr/log": "^1.0",
         "php-http/curl-client": "^1.7",
@@ -17,7 +20,6 @@
             "Cryptomkt\\Exchange\\": "src/"
         }
     },
-    "license": "MIT",
     "authors": [
         {
             "name": "Mario Pando",
