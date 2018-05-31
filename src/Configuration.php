@@ -4,6 +4,8 @@ namespace Cryptomkt\Exchange;
 
 use Cryptomkt\Exchange\Authentication\ApiKeyAuthentication;
 use Cryptomkt\Exchange\Authentication\Authentication;
+use Http\Discovery\HttpClientDiscovery;
+use Http\Discovery\MessageFactoryDiscovery;
 
 class Configuration
 {
@@ -44,10 +46,10 @@ class Configuration
             $this->apiUrl,
             $this->apiVersion,
             $this->authentication,
-            $transport
+            $transport ?: HttpClientDiscovery::find()
         );
 
-        // $httpClient->setLogger($this->logger);
+        $httpClient->setLogger($this->logger);
 
         return $httpClient;
     }

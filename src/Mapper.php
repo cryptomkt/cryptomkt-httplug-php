@@ -2,38 +2,7 @@
 
 namespace Cryptomkt\Exchange;
 
-// use Cryptomkt\Exchange\Enum\ResourceType;
-// use Cryptomkt\Exchange\Exception\LogicException;
-// use Cryptomkt\Exchange\Exception\RuntimeException;
-// use Cryptomkt\Exchange\Resource\Account;
-// use Cryptomkt\Exchange\Resource\Address;
-// use Cryptomkt\Exchange\Resource\Application;
-// use Cryptomkt\Exchange\Resource\BitcoinAddress;
-// use Cryptomkt\Exchange\Resource\Buy;
-// use Cryptomkt\Exchange\Resource\Checkout;
-// use Cryptomkt\Exchange\Resource\CurrentUser;
-// use Cryptomkt\Exchange\Resource\Deposit;
-// use Cryptomkt\Exchange\Resource\Email;
-// use Cryptomkt\Exchange\Resource\EthereumNetwork;
-// use Cryptomkt\Exchange\Resource\LitecoinNetwork;
-// use Cryptomkt\Exchange\Resource\Merchant;
-// use Cryptomkt\Exchange\Resource\Order;
-// use Cryptomkt\Exchange\Resource\PaymentMethod;
-// use Cryptomkt\Exchange\Resource\Resource;
-// use Cryptomkt\Exchange\Resource\ResourceCollection;
-// use Cryptomkt\Exchange\Resource\Sell;
-// use Cryptomkt\Exchange\Resource\Transaction;
-// use Cryptomkt\Exchange\Resource\User;
-// use Cryptomkt\Exchange\Resource\Withdrawal;
-// use Cryptomkt\Exchange\Resource\Notification;
-// use Cryptomkt\Exchange\Resource\BitcoinNetwork;
-// use Cryptomkt\Exchange\Resource\BitcoinCashNetwork;
-// use Cryptomkt\Exchange\Value\Fee;
-// use Cryptomkt\Exchange\Value\Money;
-// use Cryptomkt\Exchange\Value\Network;
-// use Cryptomkt\Exchange\Value\Ticker;
 use Psr\Http\Message\ResponseInterface;
-
 
 class Mapper
 {
@@ -478,7 +447,7 @@ class Mapper
     /** @return array */
     public function toData(ResponseInterface $response)
     {
-        return $this->decode($response)['data'];
+        return $this->decode($response);
     }
 
     /** @return Money|null */
@@ -499,7 +468,7 @@ class Mapper
 
     private function toCollection(ResponseInterface $response, $method)
     {
-        $data = $this->decode($response); var_dump($data);
+        $data = $this->decode($response);
 
         if (isset($data['pagination'])) {
             $coll = new ResourceCollection(

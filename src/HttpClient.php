@@ -3,17 +3,9 @@
 namespace Cryptomkt\Exchange;
 
 use Cryptomkt\Exchange\Authentication\Authentication;
-// use Cryptomkt\Exchange\Enum\Param;
-// use Cryptomkt\Exchange\Exception\HttpException;
-// use GuzzleHttp\Exception\RequestException;
-// use GuzzleHttp\Psr7\Request;
+use Cryptomkt\Exchange\Enum\Param;
 use Cryptomkt\RequestOptions;
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
-// use Psr\Http\RequestInterface as Request;
-// use Psr\Log\LoggerInterfaceuse GuzzleHttp\Psr7\Request;
-use Cryptomkt\Psr7\Request; 
-use \Curl\Curl;
+use Http\Discovery\MessageFactoryDiscovery;
 
 class HttpClient
 {
@@ -34,16 +26,10 @@ class HttpClient
 
     public function __construct($apiUrl, $apiVersion, $auth, $transport)
     {
-        // var_dump($apiUrl);
-        // var_dump($apiVersion);
-        // var_dump($auth);
-        // var_dump($transport);
-        // exit;
         $this->apiUrl = rtrim($apiUrl, '/');
         $this->apiVersion = $apiVersion;
         $this->auth = $auth;
-        $this->curl = new Curl();
-        // $this->transport = $transport;
+        $this->transport = $transport;
     }
 
     public function getLogger()
@@ -69,10 +55,6 @@ class HttpClient
     /** @return ResponseInterface */
     public function get($path, array $params = [])
     {
-        // var_dump($path); exit;
-        // var_dump($this->curl->get($path, array(
-        //      $params
-        // ))); exit;
         return $this->request('GET', $path, $params);
     }
 
@@ -117,45 +99,33 @@ class HttpClient
         if ('GET' === $method) {
             $path = $this->prepareQueryString($path, $params);
         }
-
-        $request = new Request($method, $this->prepareUrl($path));
-
-        return $this->send($request, $params);
+        return $this->send($method, $path, $params);
     }
 
-    private function send($request, array $params = [])
-    {
-        $this->lastRequest = $request;
-
-        $this->requestPath = parse_url($request->getRequestTarget(), PHP_URL_PATH);
-        
+    private function send($method, $path, $params = [])
+    {        
         $options = $this->prepareOptions(
-            $request->getMethod(),
-            $this->requestPath,
+            $method,
+            parse_url($path, PHP_URL_PATH),
             $params
         );
+        
+        $messageFactory = MessageFactoryDiscovery::find(); 
+
+        switch ($method) {
+            case 'GET':
+                $this->lastRequest = $request = $messageFactory->createRequest( $method, $this->prepareUrl($path), $options['headers']);  
+                break;
+            
+            default:
+                $this->lastRequest = $request = $messageFactory->createRequest( $method, $this->prepareUrl($path), $options['headers'], http_build_query($options['form_params']));  
+                break;
+        }
+
+        $this->requestPath = parse_url($request->getRequestTarget(), PHP_URL_PATH);
 
         try {
-            // $this->lastResponse = $response = $this->transport->send($request, $options);
-            
-            switch ($request->getMethod()) {
-                case 'GET':
-                    $this->lastResponse = $response = $this->curl->get($request->getUri());    
-                    break;
-                case 'POST':
-                    // $path = $this->prepareQueryString($path, $params);
-                    break;
-                case 'PUT':
-                    // $path = $this->prepareQueryString($path, $params);
-                    break;
-                case 'DELETE':
-                    // $path = $this->prepareQueryString($path, $params);
-                    break;
-                
-                default:
-                    # code...
-                    break;
-            }
+            $this->lastResponse = $response = $this->transport->sendRequest($request);            
         } catch (RequestException $e) {
             throw HttpException::wrap($e);
         }
@@ -167,7 +137,7 @@ class HttpClient
         return $response;
     }
 
-    private function prepareQueryString($path, array &$params = [])
+    private function prepareQueryString($path, array $params = [])
     {
         if (!$params) {
             return $path;
@@ -192,7 +162,7 @@ class HttpClient
     {
         $options = [];
 
-        if ($params) {
+        if ($params && $method !== 'GET') {
             $options[RequestOptions::FORM_PARAMS] = $params;
             $body = $params;
         } else {

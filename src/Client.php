@@ -2,12 +2,6 @@
 
 namespace Cryptomkt\Exchange;
 
-// use Cryptomkt\Exchange\ActiveRecord\ActiveRecordContext;
-// use Cryptomkt\Exchange\Enum\Param;
-// use Cryptomkt\Exchange\Resource\Order;
-// use Cryptomkt\Exchange\Resource\Resource;
-// use Cryptomkt\Exchange\Resource\ResourceCollection;
-
 class Client
 {
     const VERSION = '1.1.0';
@@ -80,7 +74,9 @@ class Client
 
     public function getActiveOrders(array $params = [])
     {
-        return $this->getAndMapData('/v1/orders/active', $params, 'toData');
+        // return $this->getAndMapData('/v1/orders/active', $params, 'toData');
+        return $this->getAndMapData('/v1/orders/active', $params);
+
     }
 
     public function getExecutedOrders(array $params = [])
@@ -111,7 +107,12 @@ class Client
 
     public function getPayOrder(array $params = [])
     {
-        return $this->getAndMapData('v1/payment/status', $params, 'toData');
+        return $this->getAndMapData('/v1/payment/status', $params, 'toData');
+    }
+
+    public function getPayOrders(array $params = [])
+    {
+        return $this->getAndMapData('/v1/payment/orders', $params, 'toData');
     }
 
     /**
