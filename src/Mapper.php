@@ -461,7 +461,7 @@ class Mapper
     /** @return array */
     public function decode(ResponseInterface $response)
     {
-        return json_decode($response->getBody(), true);
+        return json_decode($response->getBody());
     }
 
     // private
