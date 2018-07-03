@@ -86,4 +86,8 @@ class ApiKeyAuthentication
     {
         return hash_hmac($algo, $data, $key, FALSE);
     }
+
+    static function checkHash($hash, $data, $key){
+        return $hash === $this->getHash('sha384', $data, $key);
+    }
 }

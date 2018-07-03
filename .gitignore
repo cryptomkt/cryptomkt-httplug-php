@@ -6,3 +6,5 @@ test.php
 .phpintel
 .phpintel/
 .phpintel/*
+/.phpintel/
+.phpintel/index
